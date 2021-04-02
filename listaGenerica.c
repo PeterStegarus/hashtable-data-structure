@@ -1,38 +1,13 @@
 #include "tLG.h"
-
 int InsLG(TLG* aL, void* ae)
 {
-	TLG l, ant;
-	int ael = LungimeNume(ae);	//lungimea numelui
 	TLG aux = malloc(sizeof(TCelulaG));
 	if(!aux)
 	    return 0;
-	
+
 	aux->info = ae;
-	if (*aL == NULL) {
-		aux->next = *aL;
-		*aL = aux;
-		return 1;
-	}
-
-	for (l = *aL, ant = *aL; l != NULL; l = l->next) {
-		if (ael < LungimeNume(l->info)) {
-			aux->next = l;
-			if (l == *aL)
-				*aL = aux;
-			else {
-				l = aux;
-				ant->next = aux;
-			}
-			return 1;
-		}
-		ant = l;
-	}
-
-	//daca n-a fost inserat pe undeva prin lista, inseamna ca e cel mai lung
-	//momentan, deci il pun la final
-	aux->next = NULL;
-	ant->next = aux;
+	aux->next = *aL;
+	*aL = aux;
 
 	return 1;
 }
