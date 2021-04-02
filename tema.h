@@ -12,4 +12,6 @@ typedef struct
 
 int codHash(char *hostname, int M);
 void printIP(void *element);
-int cmpIP(void * e1, void * e2);
+int cmpIP(void *e1, void *e2);
+int put(TH *ht, char *key, char *value);
+void *get(TH *ht, void *key);

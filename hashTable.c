@@ -1,6 +1,6 @@
 #include "tHT.h"
 
-TH* IniTH(size_t M, TFHash fh)
+TH* IniTH(size_t M, TFHash fh, TFCmp fcmp)
 {
     TH *ht = (TH*)calloc(sizeof(TH), 1);
     if (!ht) {
@@ -17,6 +17,7 @@ TH* IniTH(size_t M, TFHash fh)
 
     ht->M = M;
     ht->fh = fh;
+    ht->fcmp = fcmp;
     return ht;
 }
 
@@ -68,13 +69,4 @@ int InsTHPers(TH*a, void* ae, TFCmp f)
     }
     rez = InsLGPers(a->v+cod, ae); //reminder: a->v+cod <=> &a->v[cod]
     return rez;
-}
-
-int put(TH *ht, char *key, char *value) {
-    int hashKey = ht->fh(key);
-
-}
-
-void *get(TH *ht, int key) {
-
 }
