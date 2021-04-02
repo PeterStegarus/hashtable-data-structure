@@ -1,6 +1,6 @@
 #include "tema.h"
 
-int codHash(char *hostname, int M)
+int hashFunc(char *hostname, int M)
 {
 	int sumaCaractere = 0;
 	char c = *hostname;
@@ -19,7 +19,7 @@ void printIP(void *element)
 	printf("%s ", DNS->ip);
 }
 
-int cmpIP(void * e1, void * e2)
+int cmpDNS(void * e1, void * e2)
 {
 	TDNS *DNS1 = (TDNS*)e1;
 	TDNS *DNS2 = (TDNS*)e2;
@@ -28,6 +28,34 @@ int cmpIP(void * e1, void * e2)
 		return 1;
 	
 	return 0;
+}
+
+TDNS *get(TH *ht, char *key)
+{
+    int hashKey = ht->fh(key);
+    TLG el = ht->v[hashKey];
+	TDNS *DNS;
+
+    if (el == NULL)
+        return NULL;
+    
+    do
+    {
+		DNS = (TDNS *)el->info;
+		//daca a fost gasit DNS-ul cu hostname-ul primit, il returnez
+        if (ht->fcmp(DNS->hostname, key))
+			return DNS;
+        el = el->next;
+    } while (el != ht->v[hashKey]);
+
+	//daca s-a ajuns inapoi la inceputul listei, se iese din while si inseamna
+	//ca nu s-a gasit key-ul
+	return NULL;	
+}
+
+int put(TH *ht, char *key, char *value) {
+    int hashKey = ht->fh(key);
+
 }
 
 TPers *CautaTH(TH *h, char *nume)
@@ -49,7 +77,7 @@ int main(int argc, char *argv[])
 	FILE *fin = fopen(argv[2], "r");
 	FILE *fout = fopen(argv[3], "w");
 	char buffer[N_LENGTH * 3], command[N_LENGTH], key[N_LENGTH], value[N_LENGTH];
-	TH *ht = IniTH(M, codHash);
+	TH *ht = IniTH(M, hashFunc, cmpDNS);
 
 	while (fgets(buffer, sizeof(buffer), fin)) {
 		printf("%s\n", buffer);
