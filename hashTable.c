@@ -58,15 +58,3 @@ void AfiTH(TH* ht, TF afiEl)
 
 //daca elementul exista functia intoarce 0
 //altfel se incearca inserarea elementului si se intoarce rezultatul inserarii
-int InsTHPers(TH*a, void* ae, TFCmp f)
-{
-    int cod = a->fh(ae), rez;
-    TLG el;
-
-    for(el = a->v[cod]; el != NULL; el = el->next) {
-        if (f(el->info, ae) == 1)
-            return 0;
-    }
-    rez = InsLGPers(a->v+cod, ae); //reminder: a->v+cod <=> &a->v[cod]
-    return rez;
-}

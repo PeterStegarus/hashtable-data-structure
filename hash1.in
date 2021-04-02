@@ -1,5 +1,5 @@
-abcde 123
-asedwq 32
-t45r4 fd
-342 fd
-a
+put abc 123
+put bcd 2
+put abd 124
+put acb 125
+print
