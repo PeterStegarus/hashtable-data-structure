@@ -23,10 +23,7 @@ int cmpDNS(void * e1, void * e2)
 	TDNS *DNS1 = (TDNS*)e1;
 	TDNS *DNS2 = (TDNS*)e2;
 
-	if (!strcmp(DNS1->hostname, DNS2->hostname))
-		return 1;
-	
-	return 0;
+	return strcmp(DNS1->hostname, DNS2->hostname);
 }
 
 TDNS *get(TH *ht, char *key)
@@ -42,7 +39,7 @@ TDNS *get(TH *ht, char *key)
     {
 		DNS = (TDNS *)el->info;
 		//daca a fost gasit DNS-ul cu hostname-ul primit, il returnez
-        if (ht->fcmp(DNS->hostname, key))
+        if (!ht->fcmp(DNS->hostname, key))
 			return DNS;
         el = el->next;
     } while (el != NULL && el != ht->v[hashKey]);
@@ -64,13 +61,13 @@ int find(TH *ht, char *key)
 
 int put(TH *ht, char *key, char *value) {
     int hashKey = ht->fh(key, ht->M), rez;
-	TDNS *DNS = (TDNS *)malloc(sizeof(TDNS *));
+	TDNS *DNS = (TDNS *)malloc(sizeof(TDNS));
 	strcpy(DNS->hostname, key);
 	strcpy(DNS->ip, value);
 
 	if (find(ht, key))
 		return 0;	//exista deja
-	rez = InsLG(&ht->v[hashKey], DNS);
+	rez = InsLG(&ht->v[hashKey], DNS, cmpDNS);
 	return rez;
 }
 
@@ -78,7 +75,8 @@ int main(int argc, char *argv[])
 {
 	int M = atoi(argv[1]), cursor;
 	FILE *fin = fopen(argv[2], "r");
-	FILE *fout = fopen(argv[3], "w");
+	// FILE *fout = fopen(argv[3], "w");
+	freopen(argv[3], "w", stdout);
 	char buffer[N_LENGTH * 3], command[N_LENGTH], key[N_LENGTH], value[N_LENGTH];
 	TH *ht = IniTH(M, hashFunc, cmpDNS);
 

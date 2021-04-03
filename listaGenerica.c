@@ -1,13 +1,49 @@
 #include "tLG.h"
-int InsLG(TLG* aL, void* ae)
-{
-	TLG aux = malloc(sizeof(TCelulaG));
-	if(!aux)
-	    return 0;
+// int InsLG(TLG* aL, void* ae)
+// {
+// 	TLG aux = malloc(sizeof(TCelulaG));
+// 	if(!aux)
+// 	    return 0;
 
+// 	aux->info = ae;
+// 	aux->next = *aL;
+// 	*aL = aux;
+
+// 	return 1;
+// }
+
+int InsLG(TLG *aL, void *ae, TFCmp fcmp)
+{
+	TLG l;
+	TLG aux = malloc(sizeof(TCelulaG));
+	if (!aux)
+		return 0;
+	
 	aux->info = ae;
+	if (*aL == NULL) {
+		aux->next = *aL;
+		*aL = aux;
+		return 1;
+	}
+
+	for (l = *aL; l->next != *aL && l->next != NULL; l = l->next) {
+		if (fcmp(ae, l->info) < 0) {
+			aux->prev = l->prev;
+			aux->next = l;
+			if (l == *aL)
+				*aL = aux;
+			else {
+				l->prev->next = aux;
+				l->prev = aux;				
+			}
+			return 1;
+		}
+	}
+
+	l->next = aux;
+	aux->prev = l;
 	aux->next = *aL;
-	*aL = aux;
+	(*aL)->prev = aux;
 
 	return 1;
 }

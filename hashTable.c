@@ -51,7 +51,9 @@ void AfiTH(TH* ht, TF afiEl)
         p = ht->v[i];
         if(p) {
             printf("%d: ", i);
-            for(el = p; el != NULL; el = el->next)
+            for(el = p; el != NULL && el->next != p; el = el->next)
+                afiEl(el->info);
+            if (el != NULL && el->next == p)
                 afiEl(el->info);
             printf("\n");
         }
