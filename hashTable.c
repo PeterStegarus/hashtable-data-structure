@@ -1,3 +1,5 @@
+/* Stegarus Petre-Florin 313CB */
+
 #include "tHT.h"
 
 TH* IniTH(size_t M, TFHash fh, TFCmp fcmp)
