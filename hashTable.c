@@ -31,10 +31,12 @@ void DistrTH(TH** ht, TF fe)
     for (p = (*ht)->v; p < (*ht)->v + (*ht)->M; p++) {
         //daca exista elemente corespunzatoare acestui hash
         //eliberam info din celula si apoi eliberam celula
-        for(el = *p; el != NULL; ) {
+        el = *p;
+        el->prev->next = NULL;
+        while (el != NULL) {
             aux = el;
             el = el->next;
-            fe(aux->info);
+            free(aux->info);
             free(aux);
         }
     }

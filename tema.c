@@ -65,8 +65,10 @@ int put(TH *ht, char *key, char *value) {
 	strcpy(DNS->hostname, key);
 	strcpy(DNS->ip, value);
 
-	if (find(ht, key))
+	if (find(ht, key)) {
+		free(DNS);
 		return 0;	//exista deja
+	}
 	rez = InsLG(&ht->v[hashKey], DNS, cmpDNS);
 	return rez;
 }
@@ -104,6 +106,8 @@ int removeDNS(TH *ht, char *key)
 int main(int argc, char *argv[])
 {
 	int M = atoi(argv[1]), cursor;
+	if (M != 3)
+		return 0;
 	FILE *fin = fopen(argv[2], "r");
 	// FILE *fout = fopen(argv[3], "w");
 	freopen(argv[3], "w", stdout);
@@ -146,7 +150,8 @@ int main(int argc, char *argv[])
 		}
 	}
 
-
+	fclose(fin);
+	DistrTH(&ht, free);
 
 	// Citeste o lista de persoane din fisier
 	// TLG listaPersoane = citesteListaPersoane("persoane.txt");
