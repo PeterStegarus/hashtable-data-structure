@@ -15,3 +15,5 @@ void printIP(void *element);
 int cmpIP(void *e1, void *e2);
 int put(TH *ht, char *key, char *value);
 TDNS *get(TH *ht, char *key);
+int removeDNS(TH *ht, char *key);
+int find(TH *ht, char *key);

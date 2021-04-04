@@ -25,6 +25,7 @@ typedef struct
 TH *IniTH(size_t M, TFHash fh, TFCmp fcmp);
 void DistrTH(TH **aa, TF fe);
 void AfiTH(TH *a, TF afiEl);
+void AfiBucket(TH* ht, int index_bucket, TF afiEl);
 void *ExistaTH(TH *a, void *ae, TFCmp f);
 int InsTH(TH *a, void *ae, TFCmp f);
 int ExtrTH(TH *a, void *ae, TFCmp f);

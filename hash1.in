@@ -2,10 +2,33 @@ put abc 123
 put bcd 2
 put abd 1244
 put acb 1245
+put abce 123
+put bcde 2
+put abde 1244
+put acbe 1245
+put abcf 123
+put bcdf 2
+put abdf 1244
+put acbf 1245
+get www.google.com
+find www.google.com
 print
 put abc 1264
-put google.com 234234324
+put www.google.com 8.8.8.8
 put google.ro 24523423
+print_bucket 0
+print_bucket 1
+print_bucket 2
 put maweraa 4534
 put wrewefwdfsf 234234
+get www.google.com
+print_bucket 0
+print_bucket 2
+find www.google.com
+print
+remove www.google.com
+get www.google.com
+print_bucket 0
+print_bucket 1
+find www.google.com
 print

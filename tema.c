@@ -46,7 +46,7 @@ TDNS *get(TH *ht, char *key)
 
 	//daca s-a ajuns inapoi la inceputul listei, se iese din while si inseamna
 	//ca nu s-a gasit key-ul
-	return NULL;	
+	return NULL;
 }
 
 int find(TH *ht, char *key)
@@ -69,6 +69,36 @@ int put(TH *ht, char *key, char *value) {
 		return 0;	//exista deja
 	rez = InsLG(&ht->v[hashKey], DNS, cmpDNS);
 	return rez;
+}
+
+int removeDNS(TH *ht, char *key)
+{
+	int hashKey = ht->fh(key, ht->M);
+    TLG el = ht->v[hashKey];
+	TDNS *DNS;
+
+	if (el == NULL)
+		return 0;
+
+    do
+    {
+		DNS = (TDNS *)el->info;
+		//daca a fost gasit DNS-ul cu hostname-ul primit, il sterg
+        if (!ht->fcmp(DNS->hostname, key)) {
+			TLG aux = el;
+			el->next->prev = el->prev;
+			el->prev->next = el->next;
+			free(aux->info);
+			free(aux);
+
+			return 1;
+		}
+        el = el->next;
+    } while (el != NULL && el != ht->v[hashKey]);
+
+	//daca s-a ajuns inapoi la inceputul listei, se iese din while si inseamna
+	//ca nu s-a gasit key-ul
+	return 0;
 }
 
 int main(int argc, char *argv[])
@@ -94,7 +124,8 @@ int main(int argc, char *argv[])
 
 		if (!strcmp(command, "print_bucket")) {
 			int index_bucket;
-			sscanf(buffer, "%d", &index_bucket);
+			sscanf(buffer + cursor, "%d", &index_bucket);
+			AfiBucket(ht, index_bucket, printIP);
 			continue;
 		}
 
@@ -106,11 +137,12 @@ int main(int argc, char *argv[])
 			//printf("key %s value %s\n", key, value);
 			put(ht, key, value);
 		} else if (!strcmp(command, "get")) {
-			get(ht, key);
+			TDNS *DNS = get(ht, key);
+			printf("%s\n", DNS == NULL ? "NULL" : DNS->ip);
 		} else if (!strcmp(command, "remove")) {
-			
+			removeDNS(ht, key);
 		} else if (!strcmp(command, "find")) {
-			
+			printf("%s\n", find(ht, key) ? "True" : "False");
 		}
 	}
 

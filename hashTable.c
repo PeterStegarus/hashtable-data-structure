@@ -49,7 +49,7 @@ void AfiTH(TH* ht, TF afiEl)
     int i;
     for(i = 0; i < ht->M; i++) {
         p = ht->v[i];
-        if(p) {
+        if (p) {
             printf("%d: ", i);
             for(el = p; el != NULL && el->next != p; el = el->next)
                 afiEl(el->info);
@@ -60,5 +60,20 @@ void AfiTH(TH* ht, TF afiEl)
     }
 }
 
-//daca elementul exista functia intoarce 0
-//altfel se incearca inserarea elementului si se intoarce rezultatul inserarii
+void AfiBucket(TH* ht, int index_bucket, TF afiEl)
+{
+    TLG p, el;
+    p = ht->v[index_bucket];
+    if (p) {
+        printf("%d: ", index_bucket);
+        for(el = p; el != NULL && el->next != p; el = el->next){
+            afiEl(el->info);
+            //printf("\tprev: [%s] current: [%s] next: [%s]\n", el->prev->info, el->info, el->next->info);
+        }
+        if (el != NULL && el->next == p)
+            afiEl(el->info);//, printf("\tprev: [%s] current: [%s] next: [%s]\n", el->prev->info, el->info, el->next->info);
+        printf("\n");
+    }
+    else 
+        printf("VIDA\n");
+}
