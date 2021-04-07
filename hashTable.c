@@ -32,6 +32,8 @@ void DistrTH(TH** ht, TF fe)
         //daca exista elemente corespunzatoare acestui hash
         //eliberam info din celula si apoi eliberam celula
         el = *p;
+        if (el == NULL || el->prev == NULL)
+            continue;
         el->prev->next = NULL;
         while (el != NULL) {
             aux = el;
@@ -67,13 +69,15 @@ void AfiBucket(TH* ht, int index_bucket, TF afiEl)
     TLG p, el;
     p = ht->v[index_bucket];
     if (p) {
-        printf("%d: ", index_bucket);
+        //printf("%d: ", index_bucket);
         for(el = p; el != NULL && el->next != p; el = el->next){
             afiEl(el->info);
             //printf("\tprev: [%s] current: [%s] next: [%s]\n", el->prev->info, el->info, el->next->info);
         }
-        if (el != NULL && el->next == p)
-            afiEl(el->info);//, printf("\tprev: [%s] current: [%s] next: [%s]\n", el->prev->info, el->info, el->next->info);
+        if (el != NULL && el->next == p) {
+            afiEl(el->info);
+            //printf("\tprev: [%s] current: [%s] next: [%s]\n", el->prev->info, el->info, el->next->info);
+        }
         printf("\n");
     }
     else 

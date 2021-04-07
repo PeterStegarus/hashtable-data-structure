@@ -76,27 +76,42 @@ int put(TH *ht, char *key, char *value) {
 int removeDNS(TH *ht, char *key)
 {
 	int hashKey = ht->fh(key, ht->M);
-    TLG el = ht->v[hashKey];
+	TLG start = ht->v[hashKey];
+	//o sa ma chinui cu (*el) pentru ca daca vreau sa dau remove la elementul
+	//care se afla efectiv pe "prima pozitie" in v[hashKey] (adica primul
+	//introdus cu put), v[hashKey] n-ar stii altfel ca s-a schimbat ceva
+    TLG *el = &ht->v[hashKey];
 	TDNS *DNS;
 
-	if (el == NULL)
+	if ((*el) == NULL || !find(ht, key))
 		return 0;
-
     do
     {
-		DNS = (TDNS *)el->info;
+		DNS = (TDNS *)(*el)->info;
 		//daca a fost gasit DNS-ul cu hostname-ul primit, il sterg
         if (!ht->fcmp(DNS->hostname, key)) {
-			TLG aux = el;
-			el->next->prev = el->prev;
-			el->prev->next = el->next;
+			TLG aux = (*el);
+			//printf("\tBEFORE remove: prev: [%s] current: [%s] next: [%s]\n", (*el)->prev->info, (*el)->info, (*el)->next->info);
+			if ((*el)->prev == (*el))
+				(*el) = NULL;
+			else {
+				(*el)->next->prev = (*el)->prev;
+				(*el)->prev->next = (*el)->next;
+			}
+
+			if (*el == start)
+				(*el) = (*el)->next;
+			else
+				*el = start;
+			
 			free(aux->info);
 			free(aux);
-
+			
+			//printf("\tAFTER remove: prev: [%s] current: [%s] next: [%s]\n", (*el)->prev->info, (*el)->info, (*el)->next->info);
 			return 1;
 		}
-        el = el->next;
-    } while (el != NULL && el != ht->v[hashKey]);
+        (*el) = (*el)->next;
+    } while ((*el) != NULL && (*el) != start);
 
 	//daca s-a ajuns inapoi la inceputul listei, se iese din while si inseamna
 	//ca nu s-a gasit key-ul
@@ -106,8 +121,6 @@ int removeDNS(TH *ht, char *key)
 int main(int argc, char *argv[])
 {
 	int M = atoi(argv[1]), cursor;
-	if (M != 3)
-		return 0;
 	FILE *fin = fopen(argv[2], "r");
 	// FILE *fout = fopen(argv[3], "w");
 	freopen(argv[3], "w", stdout);
@@ -115,11 +128,10 @@ int main(int argc, char *argv[])
 	TH *ht = IniTH(M, hashFunc, cmpDNS);
 
 	while (fgets(buffer, sizeof(buffer), fin)) {
-		//printf("%s\n", buffer);
-		sscanf(buffer, "%s", command);
+		//in cazul in care sunt linii libere aiurea gen "\n" in input:
+		if (sscanf(buffer, "%s", command) < 1)
+			continue;
 		cursor = strlen(command) + 1;
-		//printf("%d\n", cursor);
-		//printf("command: %s\n", command);
 
 		if (!strcmp(command, "print")) {
 			AfiTH(ht, printIP);
@@ -138,7 +150,6 @@ int main(int argc, char *argv[])
 
 		if (!strcmp(command, "put")) {
 			sscanf(buffer + cursor, "%s", value);
-			//printf("key %s value %s\n", key, value);
 			put(ht, key, value);
 		} else if (!strcmp(command, "get")) {
 			TDNS *DNS = get(ht, key);
@@ -151,6 +162,7 @@ int main(int argc, char *argv[])
 	}
 
 	fclose(fin);
+	// fclose(fout);
 	DistrTH(&ht, free);
 
 	// Citeste o lista de persoane din fisier
