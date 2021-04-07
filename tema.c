@@ -75,6 +75,7 @@ int put(TH *ht, char *key, char *value) {
 
 int removeDNS(TH *ht, char *key)
 {
+	//printf("\t removing [%s]\n", key);
 	int hashKey = ht->fh(key, ht->M);
 	TLG start = ht->v[hashKey];
 	//o sa ma chinui cu (*el) pentru ca daca vreau sa dau remove la elementul
@@ -92,8 +93,14 @@ int removeDNS(TH *ht, char *key)
         if (!ht->fcmp(DNS->hostname, key)) {
 			TLG aux = (*el);
 			//printf("\tBEFORE remove: prev: [%s] current: [%s] next: [%s]\n", (*el)->prev->info, (*el)->info, (*el)->next->info);
-			if ((*el)->prev == (*el))
+			if ((*el)->prev == (*el)) {
+				free(aux->info);
+				free(aux);
 				(*el) = NULL;
+				//printf("\t hatz sir vid\n");
+
+				return 1;
+			}
 			else {
 				(*el)->next->prev = (*el)->prev;
 				(*el)->prev->next = (*el)->next;
@@ -106,7 +113,6 @@ int removeDNS(TH *ht, char *key)
 			
 			free(aux->info);
 			free(aux);
-			
 			//printf("\tAFTER remove: prev: [%s] current: [%s] next: [%s]\n", (*el)->prev->info, (*el)->info, (*el)->next->info);
 			return 1;
 		}

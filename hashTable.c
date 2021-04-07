@@ -67,6 +67,8 @@ void AfiTH(TH* ht, TF afiEl)
 void AfiBucket(TH* ht, int index_bucket, TF afiEl)
 {
     TLG p, el;
+    if (index_bucket >= ht->M)
+        return;
     p = ht->v[index_bucket];
     if (p) {
         //printf("%d: ", index_bucket);
@@ -80,6 +82,6 @@ void AfiBucket(TH* ht, int index_bucket, TF afiEl)
         }
         printf("\n");
     }
-    else 
+    else
         printf("VIDA\n");
 }
