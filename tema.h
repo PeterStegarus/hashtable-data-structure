@@ -1,3 +1,5 @@
+/* STEGARUS Petre-Florin - 313CB */
+
 #include <stdio.h>
 #include <string.h>
 #include "tLG.h"

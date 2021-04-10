@@ -1,4 +1,7 @@
-/*-- tlg.h --- LISTA SIMPLU INLANTUITA GENERICA ---*/
+/* STEGARUS Petre-Florin - 313CB */
+
+/* Lista dublu inlantuita circulara generica */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>

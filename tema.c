@@ -1,3 +1,5 @@
+/* STEGARUS Petre-Florin - 313CB */
+
 #include "tema.h"
 
 int hashFunc(void *hostname, int M)
