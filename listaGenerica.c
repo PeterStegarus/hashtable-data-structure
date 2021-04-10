@@ -60,17 +60,3 @@ void Distruge(TLG* aL, TF free_elem) /* distruge lista */
         free(aux);   /* elibereaza spatiul ocupat de celula */
     }
 }
-
-void Afisare(TLG* aL, TF afiEL)
-{
-	if(!*aL) {
-        printf("Lista vida\n");
-        return;
-    }
-
-	printf("[\n");
-	for(; *aL; aL = &(*aL)->next) {
-		afiEL((*aL)->info);
-    }
-	printf("]\n");
-}
