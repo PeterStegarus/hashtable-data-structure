@@ -8,7 +8,6 @@
 #ifndef _TAB_HASH_
 #define _TAB_HASH_
 
-typedef int (*TFCmp)(void *, void *); // functie de comparare doua elemente
 typedef void (*TF)(void *);           // functie afisare/eliberare un element
 typedef int (*TFHash)(void *, int);
 
@@ -16,12 +15,11 @@ typedef struct
 {
     size_t M;
     TFHash fh;
-    TFCmp fcmp;
     TLG *v;
 } TH;
 
 /* functii tabela hash */
-TH *IniTH(size_t M, TFHash fh, TFCmp fcmp);
+TH *IniTH(size_t M, TFHash fh);
 void DistrTH(TH **aa, TF fe);
 void AfiTH(TH *a, TF afiEl);
 void AfiBucket(TH* ht, int index_bucket, TF afiEl);

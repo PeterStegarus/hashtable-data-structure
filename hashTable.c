@@ -2,7 +2,7 @@
 
 #include "tHT.h"
 
-TH* IniTH(size_t M, TFHash fh, TFCmp fcmp)
+TH* IniTH(size_t M, TFHash fh)
 {
     TH *ht = (TH*)calloc(sizeof(TH), 1);
     if (!ht) {
@@ -19,7 +19,6 @@ TH* IniTH(size_t M, TFHash fh, TFCmp fcmp)
 
     ht->M = M;
     ht->fh = fh;
-    ht->fcmp = fcmp;
     return ht;
 }
 
