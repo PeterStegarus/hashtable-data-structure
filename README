@@ -1,3 +1,28 @@
 /* STEGARUS Petre-Florin - 313CB */
 
-In tema.c am facut citirea linie cu linie si functiile put, get, remove, find, print si print_bucket
+In tema.c am facut citirea linie cu linie si prelucrarea inputului
+
+Pentru functia de put obtin hashkey-ul si introduc elementul intr-o lista din
+hashtable cu functia InsLG. Elementele se introduc ordonate lexicografic. Am
+implementat cazurile pentru inserare element in lista goala, inserare la
+inceput de lista (trebuie mutat si "capul" listei), inserare in interiorul
+listei, inserare la finalul listei.
+
+Pentru functia remove verific sa nu fie lista goala. Apoi, daca se vrea
+stergerea elementului dintr-o lista cu un singur element, se reseteaza lista.
+Daca lista are mai multe elemente, dar se vrea stergerea primului, trebuie
+mutat si capul listei astfel incat sa nu pointeze catre o zona de memorie care
+a fost eliberata.
+
+Functia get cauta key-ul in lista corespunzatoare hashkey-ului folosindu-se de
+functia de comparare cmpDNS. Se returneaza elementul sau NULL daca nu a fost gasit.
+
+Functia find se foloseste de get: true daca s-a returnat un element, false
+daca s-a returnat NULL
+
+Functia print parcurge vectorul de liste din hashtable si afiseaza cu functia
+printIP elementele din listele care nu sunt goale.
+
+Functia print_bucket verifica mai intai ca numarul bucketului sa nu iasa din
+rasa hashtable-ului. Se afiseaza elementele cu printIP sau VIDA daca lista este
+goala.
