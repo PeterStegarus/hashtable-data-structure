@@ -68,17 +68,15 @@ void AfiBucket(TH* ht, int index_bucket, TF afiEl)
     TLG p, el;
     if (index_bucket >= ht->M)
         return;
+
     p = ht->v[index_bucket];
     if (p) {
-        //printf("%d: ", index_bucket);
-        for(el = p; el != NULL && el->next != p; el = el->next){
+        for(el = p; el != NULL && el->next != p; el = el->next)
             afiEl(el->info);
-            //printf("\tprev: [%s] current: [%s] next: [%s]\n", el->prev->info, el->info, el->next->info);
-        }
-        if (el != NULL && el->next == p) {
+
+        if (el != NULL && el->next == p)
             afiEl(el->info);
-            //printf("\tprev: [%s] current: [%s] next: [%s]\n", el->prev->info, el->info, el->next->info);
-        }
+
         printf("\n");
     }
     else
