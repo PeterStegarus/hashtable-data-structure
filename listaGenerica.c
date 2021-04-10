@@ -1,6 +1,6 @@
 /* STEGARUS Petre-Florin - 313CB */
 
-#include "tLG.h"
+#include "tlg.h"
 
 int InsLG(TLG *aL, void *ae, TFCmp fcmp) /* introdu elementul ae in lista aL */
 {

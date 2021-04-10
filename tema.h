@@ -2,8 +2,8 @@
 
 #include <stdio.h>
 #include <string.h>
-#include "tLG.h"
-#include "tHT.h"
+#include "tlg.h"
+#include "tht.h"
 
 #define N_LENGTH 20
 
