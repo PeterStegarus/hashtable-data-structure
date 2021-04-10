@@ -10,10 +10,11 @@ typedef struct
     char hostname[N_LENGTH], ip[N_LENGTH];
 } TDNS;
 
-int codHash(char *hostname, int M);
+
+int hashFunc(void *hostname, int M);
 void printIP(void *element);
-int cmpIP(void *e1, void *e2);
-int put(TH *ht, char *key, char *value);
+int cmpDNS(void * e1, void * e2);
 TDNS *get(TH *ht, char *key);
-int removeDNS(TH *ht, char *key);
 int find(TH *ht, char *key);
+int put(TH *ht, char *key, char *value);
+int removeDNS(TH *ht, char *key);
