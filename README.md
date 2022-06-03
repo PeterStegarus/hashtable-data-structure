@@ -1,15 +1,14 @@
 # Put
-Compute hashkey and insert the item in a bucket in hashtable with the InsLG function. The elements are entered lexicographically ordered. Implemented cases for inserting element into empty list, inserting to beginning of the list, insert inside the list, insert at the end of the list.
+Compute hashkey and insert the item in a bucket in hashtable. The items are entered lexicographically ordered. Implemented cases for inserting items into empty list, to the beginning of the list, inside the list, at the end of the list.
 
 # Remove
-For the remove method, check that the list is not empty. Then, list only has one item, reset list. If the list has more than one element, first element is removed, also move the head of the list.
+Checks that the list is not empty. If list only has one item, reset list. If the list has more than one item and first item is removed, also move the head of the list.
 
 # Get
-The get method searches for the key in the corresponding hashkey list using the the cmpDNS compare function. It returns the element or NULL if not found.
+Search for the key in the corresponding bucket. Returns the element or NULL if not found.
 
 # Find
-The find method uses get: true if an element was returned, false
-if NULL was returned.
+Calls get: true if an element was returned, false if NULL was returned.
 
 # Print
 Print all non-empty buckets.
